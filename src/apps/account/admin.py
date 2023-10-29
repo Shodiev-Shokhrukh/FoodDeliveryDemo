@@ -8,7 +8,7 @@ from .models.account import User
 class UserAdmin(BaseUserAdmin):
     list_display = (
         "id",
-        "email",
+        "username",
         "first_name",
         "last_name",
         "role",
@@ -18,7 +18,7 @@ class UserAdmin(BaseUserAdmin):
         "role",
     )
     fieldsets = (
-        (None, {"fields": ("email", "password")}),
+        (None, {"fields": ("username", "password")}),
         (
             "Personal info",
             {
@@ -49,15 +49,15 @@ class UserAdmin(BaseUserAdmin):
             None,
             {
                 "fields": (
-                    "email",
+                    "username",
                     "password1",
                     "password2",
                 )
             },
         ),
     )
-    search_fields = ("email", "first_name", "last_name")
-    ordering = ("email",)
+    search_fields = ("username", "first_name", "last_name")
+    ordering = ("username",)
     filter_horizontal = (
         "groups",
         "user_permissions",

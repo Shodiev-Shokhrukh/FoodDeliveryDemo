@@ -10,7 +10,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/local/Dockerfile
-    image: name_django
+    image: fast_food_django
     container_name: django
     depends_on:
       - postgres
@@ -27,7 +27,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
-    image: name_postgres
+    image: fast_food_postgres
     container_name: postgres
     volumes:
       - local_postgres_data:/var/lib/postgresql/data:cached

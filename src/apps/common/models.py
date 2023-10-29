@@ -12,7 +12,7 @@ class BaseModel(models.Model):
 
 class RoleChoice(models.TextChoices):
     ADMIN = "admin", _("admin")
-    USER = "USER", _("USER")
+    USER = "user", _("user")
     WAITER = "waiter", _("waiter")
 
 
