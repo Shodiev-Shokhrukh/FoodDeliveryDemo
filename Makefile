@@ -6,10 +6,10 @@ endif
 
 
 build:
-	docker-compose -f local.yml up -d --build --remove-orphans
+	docker-compose -f local.yml up --build --remove-orphans
 
 up:
-	docker-compose -f local.yml up -d
+	docker-compose -f local.yml up
 
 down:
 	docker-compose -f local.yml down

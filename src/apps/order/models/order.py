@@ -6,6 +6,7 @@ from django.contrib.gis.geos import Point
 from src.apps.account.models import User
 from src.apps.common.models import BaseModel
 from src.apps.order.models.menu import FoodItem
+from src.apps.order.models.restaurant import Restaurant
 from src.apps.order.utils import calculate_distance
 
 
@@ -32,7 +33,8 @@ class Order(BaseModel):
     ]
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    order_location = gis_models.PointField(blank=True, null=True)
+    location = gis_models.PointField(blank=True, null=True)
+    restaurant = models.ForeignKey('Restaurant', on_delete=models.CASCADE, related_name='orders')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
 
 
@@ -58,16 +60,14 @@ class Order(BaseModel):
     
     @property
     def distance(self):
-        my_restaurant_location = gis_models.PointField(default=Point(41.3376534, 68.0660273))
-        distance = calculate_distance(my_restaurant_location.location, self.order_location)
+        distance = calculate_distance(self.restaurant.location, self.order_location)
         return distance
     
     @property
     def estimated_delivery_time(self):
-        my_restaurant_location = gis_models.PointField(default=Point(41.3376534, 68.0660273))
         pending_accepted_orders = Order.objects.filter(status__in=['pending', 'accepted'])  # Get pending and accepted orders
         total_items = sum(sum(item.quantity for item in order.order_items.all()) for order in pending_accepted_orders)
-        distance = calculate_distance(my_restaurant_location.location, self.order_location)        
+        distance = calculate_distance(self.restaurant.location, self.location)        
         preparation_time = (total_items / 4) * 5
         delivery_time = distance * 3
         total_time = preparation_time + delivery_time
