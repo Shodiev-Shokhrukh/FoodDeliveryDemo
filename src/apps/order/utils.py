@@ -1,14 +1,9 @@
-def calculate_delivery_time(order_data):
-    food_items_count = len(order_data.get('items', []))
-    # Calculate the total preparation time for the food items
-    preparation_time = (food_items_count // 4) * 5  # 4 items prepared every 5 minutes
-    if food_items_count % 4 != 0:
-        preparation_time += 5  # Additional 5 minutes for the remaining items
+from django.contrib.gis.geos import GEOSGeometry
 
-    # Calculate the delivery distance in kilometers (considering it's in the order_data)
-    delivery_distance = order_data.get('distance', 0)
+def calculate_distance(restaurant_location, order_location):
+    restaurant_point = GEOSGeometry(restaurant_location)  # Convert restaurant's location to a GEOSGeometry object
+    order_point = GEOSGeometry(order_location)  # Convert order's location to a GEOSGeometry object
 
-    # Calculate the total delivery time based on preparation time and distance
-    total_delivery_time = preparation_time + (delivery_distance * 3)  # 3 minutes per kilometer
-
-    return total_delivery_time
+    # Calculate the distance between the two points
+    distance = restaurant_point.distance(order_point)
+    return distance.km 

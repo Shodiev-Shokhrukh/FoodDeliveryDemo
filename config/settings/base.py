@@ -9,12 +9,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = os.environ["SECRET_KEY"]
 
 DJANGO_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "django.contrib.gis",
 ]
 
 THIRD_PARTY_APPS = [
@@ -25,6 +25,8 @@ THIRD_PARTY_APPS = [
     "django_filters",
     "debug_toolbar",
     'drf_yasg',
+    'django.contrib.admin',
+    "rest_framework_gis", 
 ]
 
 LOCAL_APPS = [
@@ -92,7 +94,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
         "HOST": os.environ["POSTGRES_HOST"],
         "NAME": os.environ["POSTGRES_DB"],
         "PORT": os.environ["POSTGRES_PORT"],

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from src.apps.order.models.menu import FoodItem 
-from src.apps.order.models.order import Order
+from src.apps.order.models.order import Order, OrderItem
 
 @admin.register(FoodItem)
 class MenuAdmin(admin.ModelAdmin):
@@ -10,7 +10,17 @@ class MenuAdmin(admin.ModelAdmin):
     list_filter = ("price",)
     list_display_links = ("id", "title",)
     
+@admin.register(OrderItem)
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ['order', 'food_item', 'quantity']
+    # Customize further as needed
+
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    extra = 1
+
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("id","distance", 'status')
-    search_fields = ("id", )
+    list_display = ['id', 'user', 'status']
+    inlines = [OrderItemInline]
+    readonly_fields = ['status']
