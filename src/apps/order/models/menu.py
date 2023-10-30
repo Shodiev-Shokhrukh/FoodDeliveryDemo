@@ -20,4 +20,3 @@ class FoodItem(BaseModel):
         ordering = ['-created_at']
 
 
-    
