@@ -65,3 +65,11 @@ docker-compose -f local.yml up -d
 ```
 
 - You should be good to go now
+
+#SetUP
+
+- after cloning the repository type this command:
+
+```
+    docker-compose -f local.yml up --build
+```
