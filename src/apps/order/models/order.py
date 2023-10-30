@@ -57,6 +57,12 @@ class Order(BaseModel):
         return sum(item.food_item.price * item.quantity for item in self.order_items.all())
     
     @property
+    def distance(self):
+        my_restaurant_location = gis_models.PointField(default=Point(41.3376534, 68.0660273))
+        distance = calculate_distance(my_restaurant_location.location, self.order_location)
+        return distance
+    
+    @property
     def estimated_delivery_time(self):
         my_restaurant_location = gis_models.PointField(default=Point(41.3376534, 68.0660273))
         pending_accepted_orders = Order.objects.filter(status__in=['pending', 'accepted'])  # Get pending and accepted orders

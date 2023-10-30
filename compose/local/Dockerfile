@@ -12,31 +12,6 @@ RUN apt-get update \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
 
-# Add the PostgreSQL repository and install PostGIS
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    software-properties-common \
-    gnupg2 \
-    && curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
-    && sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list' \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends \
-        postgresql-12-postgis-3 \
-        postgis
-
-# Additionally, install the extension into the database
-RUN apt-get install -y --no-install-recommends postgresql-12-postgis-3-scripts
-
-# Switch to the 'postgres' user to enable extensions
-USER postgres
-
-# Initialize PostGIS extension
-RUN /etc/init.d/postgresql start \
-    && psql --command "CREATE EXTENSION postgis;" --dbname=postgres
-
-# Exit from the 'postgres' user
-USER root
-
-
 RUN apt-get update && apt-get install -y gdal-bin libgdal-dev && apt-get install -y python3-gdal \
 && apt-get install -y binutils libproj-dev
 
