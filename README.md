@@ -1,4 +1,3 @@
-![Django project](https://github.com/Shodiev-Shokhrukh/FoodDeliveryDemo.git)
 # FoodDelivery EXTENSION API
 
 
@@ -58,18 +57,41 @@ pip install pre-commit
 pre-commmit install
 ```
 
-- Type the command below to deploy the project locally:
+#Running project steps
 
-```
-docker-compose -f local.yml up -d
-```
-
-- You should be good to go now
-
-#SetUP
-
-- after cloning the repository type this command:
+1) after cloning the repository type this command for building docker images and containers for the starting project:
 
 ```
     docker-compose -f local.yml up --build
 ```
+
+2) If you want to up all your docker containers you shoud type:
+   ```
+    docker-compose -f local.yml up
+
+    ```
+3)If you want stop containers:
+
+```
+    docker-compose -f local.yml down
+```
+or 
+
+```
+    docker-compose -f local.yml down -v
+```
+to remove them
+
+4) Makemigrations and migrate commands:
+   ```
+       docker-compose -f local.yml run --rm django python manage.py makemigrations
+   ```
+
+   ```
+       docker-compose -f local.yml run --rm django python manage.py migrate
+   ```
+
+5) Creating a superuser:
+   ```
+       docker-compose -f local.yml run --rm django python manage.py createsuperuser
+   ```
